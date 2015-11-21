@@ -16,28 +16,10 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3H-hH-WoV" customClass="ContainerView">
-                                <rect key="frame" x="0.0" y="292" width="375" height="375"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.20392156862745098" green="0.73333333333333328" blue="0.61568627450980395" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="375" id="Q3r-yI-ukU"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="f3H-hH-WoV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="A09-tr-fIu"/>
-                            <constraint firstAttribute="trailing" secondItem="f3H-hH-WoV" secondAttribute="trailing" id="Jcb-MM-3TR"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="f3H-hH-WoV" secondAttribute="bottom" id="az8-rg-bzA"/>
-                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="containerView" destination="f3H-hH-WoV" id="hDa-jG-gt7"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
