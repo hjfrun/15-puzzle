@@ -22,7 +22,7 @@ const static NSInteger Dimension = 4;
     for (NSUInteger i = 0; i < self.subviews.count; i++) {
         UIButton *button = self.subviews[i];
         
-        button.origin = CGPointMake((i % 4) * btnW, (i / 4) * btnH);
+        button.origin = CGPointMake((i % Dimension) * btnW, (i / Dimension) * btnH);
         button.width = btnW;
         button.height = btnH;
     }

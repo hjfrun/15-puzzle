@@ -14,6 +14,13 @@
 
 const static NSInteger Dimension = 4;
 
+typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
+    BlankMoveDirectionUp,           // 空白按钮向上移动
+    BlankMoveDirectionLeft,         // 空白按钮相左移动
+    BlankMoveDirectionDown,         // 空白按钮向下移动
+    BlankMoveDirectionRight,        // 空白按钮向右移动
+};
+
 @interface ViewController ()
 
 @property (weak, nonatomic) ContainerView *containerView;
@@ -21,6 +28,11 @@ const static NSInteger Dimension = 4;
 @property (nonatomic, strong) UILabel *timeLabel;           // 所用总时间
 @property (nonatomic, strong) UILabel *countLabel;          // 总共使用步数
 @property (nonatomic, strong) NSTimer *updateTimer;         // 每秒更新计时
+@property (nonatomic, strong) UIButton *blankButton;        // 空白按钮
+@property (nonatomic, strong) UIButton *upButton;           // 上面的按钮
+@property (nonatomic, strong) UIButton *leftButton;         // 左边的按钮
+@property (nonatomic, strong) UIButton *downButton;         // 下面的按钮
+@property (nonatomic, strong) UIButton *rightButton;        // 右边的按钮
 
 @end
 
@@ -155,6 +167,35 @@ const static NSInteger Dimension = 4;
     }
 }
 
+#pragma mark - 获取空白按钮的上下左右四个方向的按钮
+- (UIButton *)getButtonWithDirection:(BlankMoveDirection)moveDirection
+{
+    for (UIButton *button in self.containerView.subviews) {
+        if (button.currentTitle.length == 0) continue;
+        CGPoint buttonCenter = button.center;
+        CGPoint blankCenter = self.blankButton.center;
+        CGFloat disWidth = ABS(buttonCenter.x - blankCenter.x);
+        CGFloat disHeight =  ABS(buttonCenter.y - blankCenter.y);
+        
+        if (disHeight + disWidth <= button.width) {
+            if (buttonCenter.x < blankCenter.x) {
+                self.leftButton = button;
+            } else if (buttonCenter.x > blankCenter.x) {
+                self.rightButton = button;
+            } else if (buttonCenter.y < blankCenter.y) {
+                self.upButton = button;
+            } else if (buttonCenter.y > blankCenter.y) {
+                self.downButton = button;
+            }
+        }
+        
+    }
+    return nil;
+}
+
+/**
+ *  点击按钮后相应操作，按照需要移动按钮位置
+ */
 - (void)refreshButtonClick
 {
     [self randomButtons];
@@ -188,6 +229,8 @@ const static NSInteger Dimension = 4;
         [button setTitle:[NSString stringWithFormat:@"%lu", (unsigned long)number] forState:UIControlStateHighlighted];
         button.backgroundColor = ColorNormal;
         [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        self.blankButton = button;
     }
     [self.containerView addSubview:button];
 }
@@ -202,15 +245,15 @@ const static NSInteger Dimension = 4;
 //    NSLog(@"buttonClicked: %@", button.currentTitle);
     // 当前按钮的origin
     CGPoint center = button.center;
-    CGPoint blankCenter;
-    UIButton *blankButton;
-    for (UIButton *btn in self.containerView.subviews) {
-        if (btn.currentTitle.length == 0) {
-            blankCenter = btn.center;
-            blankButton = btn;
-            break;
-        }
-    }
+    CGPoint blankCenter = self.blankButton.center;
+//    UIButton *blankButton;
+//    for (UIButton *btn in self.containerView.subviews) {
+//        if (btn.currentTitle.length == 0) {
+//            blankCenter = btn.center;
+//            blankButton = btn;
+//            break;
+//        }
+//    }
 //    NSLog(@"button center: %@", NSStringFromCGPoint(center));
 //    NSLog(@"blank center: %@", NSStringFromCGPoint(blankCenter));
     
@@ -225,7 +268,7 @@ const static NSInteger Dimension = 4;
         }
         [UIView animateWithDuration:0.1 animations:^{
             CGPoint temp = blankCenter;
-            blankButton.center = button.center;
+            self.blankButton.center = button.center;
             button.center = temp;
             self.countLabel.text = [NSString stringWithFormat:@"%d", self.countLabel.text.intValue + 1];
             [self checkStatus];
@@ -255,7 +298,7 @@ const static NSInteger Dimension = 4;
         if ([button.currentTitle intValue] == row * Dimension + col + 1) {  // 数字位置正确时
             button.backgroundColor = ColorRight;
             rightCount++;
-            if (rightCount == 15) {
+            if (rightCount == Dimension * Dimension) {
                 [self.updateTimer invalidate];
                 self.updateTimer = nil;
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:@"用时: %zd秒\n总步数: %@", self.totalSeconds, self.countLabel.text] preferredStyle:UIAlertControllerStyleAlert];
