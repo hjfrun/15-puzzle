@@ -128,7 +128,7 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
     // 添加所有数字作为按钮
     [self setupButtons];
     // 打乱所有数字
-    [self randomButtons];
+//    [self randomButtons];
 }
 
 /**
@@ -137,6 +137,7 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self randomButtons];
     [self checkStatus];
 }
 
@@ -155,41 +156,105 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
  */
 - (void)randomButtons
 {
-    NSMutableArray *array = [NSMutableArray array];
+//    NSMutableArray *array = [NSMutableArray array];
+//    
+//    for (UIButton *button in self.containerView.subviews) {
+//        [array addObject:button];
+//        [button removeFromSuperview];
+//    }
+//    NSArray *newArray = [array shuffledArray];
+//    for (NSUInteger i = 0; i < newArray.count; i++) {
+//        [self.containerView addSubview:newArray[i]];
+//    }
     
-    for (UIButton *button in self.containerView.subviews) {
-        [array addObject:button];
-        [button removeFromSuperview];
+    for (int i = 0; i < 100; i++) {
+        BlankMoveDirection direction = arc4random_uniform(4);
+        UIButton *button = [self getButtonWithDirection:direction];
+        if (button == nil) continue;
+        
+        [UIView animateWithDuration:0.01 animations:^{
+            CGPoint temp = self.blankButton.center;
+            self.blankButton.center = button.center;
+            button.center = temp;
+//            self.countLabel.text = [NSString stringWithFormat:@"%d", self.countLabel.text.intValue + 1];
+            [self checkStatus];
+        }];
     }
-    NSArray *newArray = [array shuffledArray];
-    for (NSUInteger i = 0; i < newArray.count; i++) {
-        [self.containerView addSubview:newArray[i]];
-    }
+    
 }
 
 #pragma mark - 获取空白按钮的上下左右四个方向的按钮
 - (UIButton *)getButtonWithDirection:(BlankMoveDirection)moveDirection
 {
-    for (UIButton *button in self.containerView.subviews) {
-        if (button.currentTitle.length == 0) continue;
-        CGPoint buttonCenter = button.center;
-        CGPoint blankCenter = self.blankButton.center;
-        CGFloat disWidth = ABS(buttonCenter.x - blankCenter.x);
-        CGFloat disHeight =  ABS(buttonCenter.y - blankCenter.y);
-        
-        if (disHeight + disWidth <= button.width) {
-            if (buttonCenter.x < blankCenter.x) {
-                self.leftButton = button;
-            } else if (buttonCenter.x > blankCenter.x) {
-                self.rightButton = button;
-            } else if (buttonCenter.y < blankCenter.y) {
-                self.upButton = button;
-            } else if (buttonCenter.y > blankCenter.y) {
-                self.downButton = button;
+    CGPoint blankCenter = self.blankButton.center;
+    CGPoint upCenter = CGPointMake(blankCenter.x, blankCenter.y - self.blankButton.width);
+    CGPoint leftCenter = CGPointMake(blankCenter.x - self.blankButton.width, blankCenter.y);
+    CGPoint downCenter = CGPointMake(blankCenter.x, blankCenter.y + self.blankButton.width);
+    CGPoint rightCenter = CGPointMake(blankCenter.x + self.blankButton.width, blankCenter.y);
+    
+    switch (moveDirection) {
+        case BlankMoveDirectionUp:
+        {
+            for (UIButton *button in self.containerView.subviews) {
+                if (CGRectContainsPoint(button.frame, upCenter)) {
+                    return button;
+                }
             }
         }
-        
+            break;
+        case BlankMoveDirectionLeft:
+        {
+            for (UIButton *button in self.containerView.subviews) {
+                if (CGRectContainsPoint(button.frame, leftCenter)) {
+                    return button;
+                }
+            }
+        }
+            break;
+        case BlankMoveDirectionDown:
+        {
+            for (UIButton *button in self.containerView.subviews) {
+                if (CGRectContainsPoint(button.frame, downCenter)) {
+                    return button;
+                }
+            }
+        }
+            break;
+        case BlankMoveDirectionRight:
+        {
+            for (UIButton *button in self.containerView.subviews) {
+                if (CGRectContainsPoint(button.frame, rightCenter)) {
+                    return button;
+                }
+            }
+        }
+            break;
+            
+        default:
+            break;
     }
+    
+//    for (UIButton *button in self.containerView.subviews) {
+//        if (button.currentTitle.length == 0) continue;
+//        CGPoint buttonCenter = button.center;
+//        
+//        CGPoint blankCenter = self.blankButton.center;
+//        CGFloat disWidth = ABS(buttonCenter.x - blankCenter.x);
+//        CGFloat disHeight =  ABS(buttonCenter.y - blankCenter.y);
+//        
+//        if (disHeight + disWidth <= button.width) {
+//            if (buttonCenter.x < blankCenter.x) {
+//                self.leftButton = button;
+//            } else if (buttonCenter.x > blankCenter.x) {
+//                self.rightButton = button;
+//            } else if (buttonCenter.y < blankCenter.y) {
+//                self.upButton = button;
+//            } else if (buttonCenter.y > blankCenter.y) {
+//                self.downButton = button;
+//            }
+//        }
+//        
+//    }
     return nil;
 }
 
@@ -298,7 +363,7 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
         if ([button.currentTitle intValue] == row * Dimension + col + 1) {  // 数字位置正确时
             button.backgroundColor = ColorRight;
             rightCount++;
-            if (rightCount == Dimension * Dimension) {
+            if (rightCount == Dimension * Dimension - 1) {
                 [self.updateTimer invalidate];
                 self.updateTimer = nil;
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:@"用时: %zd秒\n总步数: %@", self.totalSeconds, self.countLabel.text] preferredStyle:UIAlertControllerStyleAlert];
