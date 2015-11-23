@@ -10,4 +10,6 @@
 
 @interface ContainerView : UIView
 
+@property (nonatomic, assign) NSUInteger dimension;
+
 @end

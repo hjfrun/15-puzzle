@@ -9,10 +9,8 @@
 #import "ViewController.h"
 #import "ContainerView.h"
 #import "UIView+Extension.h"
-#import "NSArray+Extension.h"
 #import "Const.h"
 
-const static NSInteger Dimension = 4;
 
 typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
     BlankMoveDirectionUp,           // 空白按钮向上移动
@@ -29,10 +27,9 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 @property (nonatomic, strong) UILabel *countLabel;          // 总共使用步数
 @property (nonatomic, strong) NSTimer *updateTimer;         // 每秒更新计时
 @property (nonatomic, strong) UIButton *blankButton;        // 空白按钮
-@property (nonatomic, strong) UIButton *upButton;           // 上面的按钮
-@property (nonatomic, strong) UIButton *leftButton;         // 左边的按钮
-@property (nonatomic, strong) UIButton *downButton;         // 下面的按钮
-@property (nonatomic, strong) UIButton *rightButton;        // 右边的按钮
+
+@property (nonatomic, assign) NSUInteger dimension;         // 方阵的行数
+@property (nonatomic, assign, readonly) CGFloat side;                 // 边长
 
 @end
 
@@ -41,6 +38,8 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    [self setDimension:5];
     
     // 添加上面的背景view
     UIView *upView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, ScreenH - ScreenW)];
@@ -131,6 +130,15 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 //    [self randomButtons];
 }
 
+- (void)setDimension:(NSUInteger)dimension
+{
+    _dimension = dimension;
+    
+    _side = ScreenW / dimension;
+    
+    self.containerView.dimension = dimension;
+}
+
 /**
  *  在显示之前设置正确的颜色
  */
@@ -146,7 +154,7 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
  */
 - (void)setupButtons
 {
-    for (NSUInteger i = 1; i <= Dimension * Dimension; i++) {
+    for (NSUInteger i = 1; i <= self.dimension * self.dimension; i++) {
         [self addButtonWithNumber:i];
     }
 }
@@ -156,29 +164,17 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
  */
 - (void)randomButtons
 {
-//    NSMutableArray *array = [NSMutableArray array];
-//    
-//    for (UIButton *button in self.containerView.subviews) {
-//        [array addObject:button];
-//        [button removeFromSuperview];
-//    }
-//    NSArray *newArray = [array shuffledArray];
-//    for (NSUInteger i = 0; i < newArray.count; i++) {
-//        [self.containerView addSubview:newArray[i]];
-//    }
-    
+    // 空白按钮随机四个方向走100步，数值可以变动
     for (int i = 0; i < 100; i++) {
         BlankMoveDirection direction = arc4random_uniform(4);
         UIButton *button = [self getButtonWithDirection:direction];
         if (button == nil) continue;
         
-        [UIView animateWithDuration:0.01 animations:^{
-            CGPoint temp = self.blankButton.center;
-            self.blankButton.center = button.center;
-            button.center = temp;
-//            self.countLabel.text = [NSString stringWithFormat:@"%d", self.countLabel.text.intValue + 1];
-            [self checkStatus];
-        }];
+        CGPoint temp = self.blankButton.center;
+        self.blankButton.center = button.center;
+        button.center = temp;
+
+        [self checkStatus];
     }
     
 }
@@ -187,10 +183,10 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 - (UIButton *)getButtonWithDirection:(BlankMoveDirection)moveDirection
 {
     CGPoint blankCenter = self.blankButton.center;
-    CGPoint upCenter = CGPointMake(blankCenter.x, blankCenter.y - self.blankButton.width);
-    CGPoint leftCenter = CGPointMake(blankCenter.x - self.blankButton.width, blankCenter.y);
-    CGPoint downCenter = CGPointMake(blankCenter.x, blankCenter.y + self.blankButton.width);
-    CGPoint rightCenter = CGPointMake(blankCenter.x + self.blankButton.width, blankCenter.y);
+    CGPoint upCenter = CGPointMake(blankCenter.x, blankCenter.y - self.side);
+    CGPoint leftCenter = CGPointMake(blankCenter.x - self.side, blankCenter.y);
+    CGPoint downCenter = CGPointMake(blankCenter.x, blankCenter.y + self.side);
+    CGPoint rightCenter = CGPointMake(blankCenter.x + self.side, blankCenter.y);
     
     switch (moveDirection) {
         case BlankMoveDirectionUp:
@@ -234,27 +230,6 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
             break;
     }
     
-//    for (UIButton *button in self.containerView.subviews) {
-//        if (button.currentTitle.length == 0) continue;
-//        CGPoint buttonCenter = button.center;
-//        
-//        CGPoint blankCenter = self.blankButton.center;
-//        CGFloat disWidth = ABS(buttonCenter.x - blankCenter.x);
-//        CGFloat disHeight =  ABS(buttonCenter.y - blankCenter.y);
-//        
-//        if (disHeight + disWidth <= button.width) {
-//            if (buttonCenter.x < blankCenter.x) {
-//                self.leftButton = button;
-//            } else if (buttonCenter.x > blankCenter.x) {
-//                self.rightButton = button;
-//            } else if (buttonCenter.y < blankCenter.y) {
-//                self.upButton = button;
-//            } else if (buttonCenter.y > blankCenter.y) {
-//                self.downButton = button;
-//            }
-//        }
-//        
-//    }
     return nil;
 }
 
@@ -264,10 +239,6 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 - (void)refreshButtonClick
 {
     [self randomButtons];
-//    [self checkStatus];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self checkStatus];
-//    });
     self.countLabel.text = @"0";
     self.timeLabel.text = @"00:00";
     self.totalSeconds = 0;
@@ -288,7 +259,7 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
     UIButton *button = [[UIButton alloc] init];
     button.layer.borderColor = ColorBorder;
     button.layer.borderWidth = 1;
-    if (number < Dimension * Dimension) {
+    if (number < self.dimension * self.dimension) {
         button.titleLabel.font = [UIFont systemFontOfSize:30];
         [button setTitle:[NSString stringWithFormat:@"%lu", (unsigned long)number] forState:UIControlStateNormal];
         [button setTitle:[NSString stringWithFormat:@"%lu", (unsigned long)number] forState:UIControlStateHighlighted];
@@ -307,37 +278,24 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
  */
 - (void)buttonClicked:(UIButton *)button
 {
-//    NSLog(@"buttonClicked: %@", button.currentTitle);
-    // 当前按钮的origin
     CGPoint center = button.center;
     CGPoint blankCenter = self.blankButton.center;
-//    UIButton *blankButton;
-//    for (UIButton *btn in self.containerView.subviews) {
-//        if (btn.currentTitle.length == 0) {
-//            blankCenter = btn.center;
-//            blankButton = btn;
-//            break;
-//        }
-//    }
-//    NSLog(@"button center: %@", NSStringFromCGPoint(center));
-//    NSLog(@"blank center: %@", NSStringFromCGPoint(blankCenter));
     
     CGFloat disWidth = ABS(center.x - blankCenter.x);
     CGFloat disHeight =  ABS(center.y - blankCenter.y);
     
-    if (disHeight + disWidth <= button.width) {
+    if (disHeight + disWidth <= self.side + 4) {
         if (self.updateTimer == nil) {
             self.updateTimer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateTimeLabel) userInfo:nil repeats:YES];
             [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
-//            [self.updateTimer fire];
         }
         [UIView animateWithDuration:0.1 animations:^{
             CGPoint temp = blankCenter;
             self.blankButton.center = button.center;
             button.center = temp;
-            self.countLabel.text = [NSString stringWithFormat:@"%d", self.countLabel.text.intValue + 1];
-            [self checkStatus];
         }];
+        self.countLabel.text = [NSString stringWithFormat:@"%d", self.countLabel.text.intValue + 1];
+        [self checkStatus];
     }
 }
 
@@ -355,15 +313,15 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
 - (void)checkStatus
 {
     NSUInteger rightCount = 0;
-//    NSLog(@"%zd", self.containerView.subviews.count);
+
     for (UIButton *button in self.containerView.subviews) {
-        int row = button.origin.y / button.width;
-        int col = button.origin.x / button.width;
+        int row = button.origin.y / self.side;
+        int col = button.origin.x / self.side;
         
-        if ([button.currentTitle intValue] == row * Dimension + col + 1) {  // 数字位置正确时
+        if ([button.currentTitle intValue] == row * self.dimension + col + 1) {  // 数字位置正确时
             button.backgroundColor = ColorRight;
             rightCount++;
-            if (rightCount == Dimension * Dimension - 1) {
+            if (rightCount == self.dimension * self.dimension - 1) {
                 [self.updateTimer invalidate];
                 self.updateTimer = nil;
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:[NSString stringWithFormat:@"用时: %zd秒\n总步数: %@", self.totalSeconds, self.countLabel.text] preferredStyle:UIAlertControllerStyleAlert];
@@ -376,6 +334,10 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
                 UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"算了" style:UIAlertActionStyleCancel handler:nil];
                 [alertController addAction:cancel];
                 [self presentViewController:alertController animated:YES completion:nil];
+                [self presentViewController:alertController animated:YES completion:^{
+                    self.timeLabel.text = @"00:00";
+                    self.countLabel.text = @"0";
+                }];
             }
         } else if (button.currentTitle.length == 0){                        // 空白按钮，没有数字时
             button.backgroundColor = ColorClear;

@@ -9,20 +9,29 @@
 #import "ContainerView.h"
 #import "UIView+Extension.h"
 
-const static NSInteger Dimension = 4;
 
 @implementation ContainerView
+
+//- (void)setDimension:(NSUInteger)dimension
+//{
+//    _dimension = dimension;
+//    
+//    [self setNeedsDisplay];
+//}
+
+
 
 
 - (void)layoutSubviews
 {
-    CGFloat btnW = self.frame.size.width / Dimension;
+    self.dimension = 5;
+    CGFloat btnW = self.frame.size.width / self.dimension;
     CGFloat btnH = btnW;
     
     for (NSUInteger i = 0; i < self.subviews.count; i++) {
         UIButton *button = self.subviews[i];
         
-        button.origin = CGPointMake((i % Dimension) * btnW, (i / Dimension) * btnH);
+        button.origin = CGPointMake((i % _dimension) * btnW, (i / _dimension) * btnH);
         button.width = btnW;
         button.height = btnH;
     }

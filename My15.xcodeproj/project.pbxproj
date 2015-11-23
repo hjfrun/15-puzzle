@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E12DDA8F1BFF63EE0009F116 /* NSArray+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E12DDA8E1BFF63EE0009F116 /* NSArray+Extension.m */; };
 		E1C7B6081BFEBEEC000DB5A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C7B6071BFEBEEC000DB5A8 /* main.m */; };
 		E1C7B60B1BFEBEEC000DB5A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C7B60A1BFEBEEC000DB5A8 /* AppDelegate.m */; };
 		E1C7B60E1BFEBEEC000DB5A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C7B60D1BFEBEEC000DB5A8 /* ViewController.m */; };
@@ -20,8 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E12DDA8D1BFF63EE0009F116 /* NSArray+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Extension.h"; sourceTree = "<group>"; };
-		E12DDA8E1BFF63EE0009F116 /* NSArray+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extension.m"; sourceTree = "<group>"; };
 		E1C7B6031BFEBEEC000DB5A8 /* My15.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = My15.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1C7B6071BFEBEEC000DB5A8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E1C7B6091BFEBEEC000DB5A8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -67,8 +64,6 @@
 			children = (
 				E1C7B6201BFEC8B0000DB5A8 /* UIView+Extension.h */,
 				E1C7B6211BFEC8B0000DB5A8 /* UIView+Extension.m */,
-				E12DDA8D1BFF63EE0009F116 /* NSArray+Extension.h */,
-				E12DDA8E1BFF63EE0009F116 /* NSArray+Extension.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -216,7 +211,6 @@
 				E1C7B6251BFF1FC2000DB5A8 /* Const.m in Sources */,
 				E1C7B60B1BFEBEEC000DB5A8 /* AppDelegate.m in Sources */,
 				E1C7B6081BFEBEEC000DB5A8 /* main.m in Sources */,
-				E12DDA8F1BFF63EE0009F116 /* NSArray+Extension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
