@@ -1,7 +1,0 @@
-input test
-
-hello, everyone.
-
-this is my test.
-
-ok, that’s all.
