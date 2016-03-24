@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E1C7B6031BFEBEEC000DB5A8 /* My15.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = My15.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1C7B6031BFEBEEC000DB5A8 /* 15-puzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "15-puzzle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1C7B6071BFEBEEC000DB5A8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E1C7B6091BFEBEEC000DB5A8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E1C7B60A1BFEBEEC000DB5A8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 		E1C7B5FA1BFEBEEC000DB5A8 = {
 			isa = PBXGroup;
 			children = (
-				E1C7B6051BFEBEEC000DB5A8 /* My15 */,
+				E1C7B6051BFEBEEC000DB5A8 /* 15-puzzle */,
 				E1C7B6041BFEBEEC000DB5A8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,12 +104,12 @@
 		E1C7B6041BFEBEEC000DB5A8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1C7B6031BFEBEEC000DB5A8 /* My15.app */,
+				E1C7B6031BFEBEEC000DB5A8 /* 15-puzzle.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E1C7B6051BFEBEEC000DB5A8 /* My15 */ = {
+		E1C7B6051BFEBEEC000DB5A8 /* 15-puzzle */ = {
 			isa = PBXGroup;
 			children = (
 				E12DDA8C1BFF63860009F116 /* Model */,
@@ -119,7 +119,7 @@
 				E12DDA881BFF63610009F116 /* Other */,
 				E1C7B6061BFEBEEC000DB5A8 /* Supporting Files */,
 			);
-			path = My15;
+			path = "15-puzzle";
 			sourceTree = "<group>";
 		};
 		E1C7B6061BFEBEEC000DB5A8 /* Supporting Files */ = {
@@ -137,9 +137,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E1C7B6021BFEBEEC000DB5A8 /* My15 */ = {
+		E1C7B6021BFEBEEC000DB5A8 /* 15-puzzle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E1C7B61A1BFEBEEC000DB5A8 /* Build configuration list for PBXNativeTarget "My15" */;
+			buildConfigurationList = E1C7B61A1BFEBEEC000DB5A8 /* Build configuration list for PBXNativeTarget "15-puzzle" */;
 			buildPhases = (
 				E1C7B5FF1BFEBEEC000DB5A8 /* Sources */,
 				E1C7B6001BFEBEEC000DB5A8 /* Frameworks */,
@@ -149,9 +149,9 @@
 			);
 			dependencies = (
 			);
-			name = My15;
+			name = "15-puzzle";
 			productName = My15;
-			productReference = E1C7B6031BFEBEEC000DB5A8 /* My15.app */;
+			productReference = E1C7B6031BFEBEEC000DB5A8 /* 15-puzzle.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -169,7 +169,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E1C7B5FE1BFEBEEC000DB5A8 /* Build configuration list for PBXProject "My15" */;
+			buildConfigurationList = E1C7B5FE1BFEBEEC000DB5A8 /* Build configuration list for PBXProject "15-puzzle" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -182,7 +182,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E1C7B6021BFEBEEC000DB5A8 /* My15 */,
+				E1C7B6021BFEBEEC000DB5A8 /* 15-puzzle */,
 			);
 		};
 /* End PBXProject section */
@@ -322,10 +322,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = My15/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/15-puzzle/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pptv.My15;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pptv.15-puzzle";
+				PRODUCT_NAME = "15-puzzle";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -336,10 +337,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = My15/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/15-puzzle/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pptv.My15;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pptv.15-puzzle";
+				PRODUCT_NAME = "15-puzzle";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -347,7 +349,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E1C7B5FE1BFEBEEC000DB5A8 /* Build configuration list for PBXProject "My15" */ = {
+		E1C7B5FE1BFEBEEC000DB5A8 /* Build configuration list for PBXProject "15-puzzle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C7B6181BFEBEEC000DB5A8 /* Debug */,
@@ -356,7 +358,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E1C7B61A1BFEBEEC000DB5A8 /* Build configuration list for PBXNativeTarget "My15" */ = {
+		E1C7B61A1BFEBEEC000DB5A8 /* Build configuration list for PBXNativeTarget "15-puzzle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C7B61B1BFEBEEC000DB5A8 /* Debug */,
