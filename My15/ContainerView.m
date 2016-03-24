@@ -20,7 +20,10 @@
 //}
 
 
-
+- (void)randomAllButtons
+{
+    
+}
 
 - (void)layoutSubviews
 {

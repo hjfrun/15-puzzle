@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign) NSUInteger dimension;
 
+- (void)randomAllButtons;
+
 @end
