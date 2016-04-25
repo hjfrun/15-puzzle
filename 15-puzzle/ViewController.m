@@ -126,6 +126,9 @@ typedef NS_ENUM(NSUInteger, BlankMoveDirection) {
     self.containerView.layer.borderWidth = 2;
     // 添加所有数字作为按钮
     [self setupButtons];
+    
+    NSLog(@"Jenkins Test");
+    
     // 打乱所有数字
 //    [self randomButtons];
 }
